@@ -2,6 +2,9 @@
 
 /**
  * This script is meant to be run only once to fill the database with some data
+ * 
+ * test 
+ * 
  * You do not need to run it if you used the .sql file provided in the project folder
  * and imported it in your database via phpMyAdmin
  * 
