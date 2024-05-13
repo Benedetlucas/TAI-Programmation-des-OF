@@ -1,0 +1,299 @@
+  .app,
+  .jilora {
+    position: relative;
+    letter-spacing: -0.01em;
+    line-height: 150%;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 40px;
+  }
+  .jilora {
+    margin: 0;
+    font-size: 24px;
+    font-family: var(--small-text);
+    color: var(--color-black);
+    text-align: center;
+    min-width: 84px;
+  }
+  .jilora-wrapper {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 var(--padding-xl);
+  }
+  .google-icon {
+    height: 20px;
+    width: 20px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .sign-up-with {
+    position: relative;
+    font-size: var(--small-text-size);
+    line-height: 150%;
+    font-weight: 500;
+    font-family: var(--small-text);
+    color: var(--color-black);
+    text-align: left;
+  }
+  .button {
+    cursor: pointer;
+    border: 0;
+    padding: 10px 14px 6px;
+    background-color: #eee;
+    align-self: stretch;
+    border-radius: var(--br-5xs);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 89px;
+    white-space: nowrap;
+  }
+  .button:hover {
+    background-color: #d4d4d4;
+  }
+  .frame-child {
+    align-self: stretch;
+    height: 1px;
+    position: relative;
+    background-color: var(--color-gainsboro-100);
+  }
+  .rectangle-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-xs-5) 0 0;
+    box-sizing: border-box;
+    min-width: 84px;
+  }
+  .or-continue-with {
+    position: relative;
+    font-size: var(--small-text-size);
+    line-height: 150%;
+    font-family: var(--small-text);
+    color: var(--color-gray);
+    text-align: center;
+    display: inline-block;
+    min-width: 123px;
+  }
+  .frame-item {
+    align-self: stretch;
+    height: 1px;
+    position: relative;
+    background-color: var(--color-gainsboro-100);
+  }
+  .frame-group,
+  .rectangle-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .rectangle-container {
+    flex: 1;
+    flex-direction: column;
+    padding: var(--padding-xs-5) 0 0;
+    box-sizing: border-box;
+    min-width: 84px;
+  }
+  .frame-group {
+    align-self: stretch;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .label {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    font-weight: 500;
+    font-family: var(--small-text);
+    font-size: var(--body-text-size);
+    background-color: transparent;
+    height: 30px;
+    flex: 1;
+    position: relative;
+    line-height: 150%;
+    color: var(--color-gray);
+    text-align: left;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 221px;
+    max-width: 100%;
+    padding: 0;
+  }
+  .field {
+    align-self: stretch;
+    border-radius: var(--br-5xs);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gainsboro-200);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-10xs) var(--padding-mini);
+    max-width: 100%;
+  }
+  .label1 {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    font-weight: 500;
+    font-family: var(--small-text);
+    font-size: var(--body-text-size);
+    background-color: transparent;
+    height: 30px;
+    flex: 1;
+    position: relative;
+    line-height: 150%;
+    color: var(--color-gray);
+    text-align: left;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 221px;
+    max-width: 100%;
+    padding: 0;
+  }
+  .field1 {
+    align-self: stretch;
+    border-radius: var(--br-5xs);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gainsboro-200);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-10xs) var(--padding-mini);
+    max-width: 100%;
+  }
+  .cant-log-in,
+  .sign-up-for {
+    margin: 0;
+  }
+  .cant-log-in-container,
+  .continue {
+    position: relative;
+    font-size: var(--small-text-size);
+    line-height: 150%;
+    font-family: var(--small-text);
+  }
+  .cant-log-in-container {
+    align-self: stretch;
+    color: var(--color-gray);
+    text-align: center;
+  }
+  .continue {
+    font-weight: 500;
+    color: var(--color-white);
+    text-align: left;
+    display: inline-block;
+    min-width: 70px;
+  }
+  .button1 {
+    cursor: pointer;
+    border: 0;
+    padding: 8px var(--padding-xl);
+    background-color: var(--color-black);
+    align-self: stretch;
+    border-radius: var(--br-5xs);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .button1:hover {
+    background-color: #333;
+  }
+  .by-clicking-continue {
+    color: var(--color-gray);
+  }
+  .terms-of-service {
+    color: var(--color-black);
+  }
+  .and {
+    color: var(--color-gray);
+  }
+  .privacy-policy {
+    color: var(--color-black);
+  }
+  .by-clicking-continue-container {
+    align-self: stretch;
+    position: relative;
+    font-size: var(--small-text-size);
+    line-height: 150%;
+    font-family: var(--small-text);
+    text-align: center;
+  }
+  .frame-parent {
+    margin: 0;
+    width: 400px;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 24px;
+    max-width: 100%;
+  }
+  .auth,
+  .auth-inner,
+  .frame-parent {
+    display: flex;
+    align-items: flex-start;
+  }
+  .auth-inner {
+    align-self: stretch;
+    flex-direction: row;
+    justify-content: center;
+    max-width: 100%;
+  }
+  .auth {
+    width: 100%;
+    position: relative;
+    background-color: var(--color-white);
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: var(--padding-5xl) var(--padding-5xl) 199px;
+    box-sizing: border-box;
+    gap: 165px;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    font-size: var(--body-text-size);
+    color: var(--color-black);
+    font-family: var(--small-text);
+  }
+  @media screen and (max-width: 750px) {
+    .auth {
+      gap: 82px;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    .app {
+      font-size: var(--small-text-size);
+      line-height: 24px;
+    }
+    .jilora {
+      font-size: 19px;
+      line-height: 29px;
+    }
+    .button {
+      gap: 44px;
+    }
+    .label,
+    .label1 {
+      font-size: var(--small-text-size);
+      line-height: 24px;
+    }
+    .auth {
+      gap: 41px;
+    }
+  }
