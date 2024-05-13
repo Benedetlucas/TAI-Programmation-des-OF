@@ -7,10 +7,10 @@
 
 
     // Check if the user comes from the form...
-    if (isset($_POST['login']) && isset($_POST['pwd'])) {
+    if (isset($_POST['identifiant']) && isset($_POST['mot_de_passe'])) {
 
         // check if all fields have an input
-        if (strlen($_POST['login']) > 0 && strlen($_POST['pwd']) > 0) {
+        if (strlen($_POST['identifiant']) > 0 && strlen($_POST['mot_de_passe']) > 0) {
             $userModel = new UserModel();
             // Call the model to check if the user exists
             // How is the information stored? In a database? In a file? In a cloud? In a cookie?
