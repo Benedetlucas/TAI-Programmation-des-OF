@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <header>
     <!-- Votre header ici -->
     <!-- Exemple de code pour le header -->
-    <h1>Gestion des agents</h1>
+    <h2>Gestion des agents</h2>
 </header>
 
 <table>
@@ -120,16 +120,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <button type="submit">Ajouter</button>
 </form>
-    <?php
-        // Requête SQL pour ajouter un nouvel agent
-        $sql_ajouter = "INSERT INTO agent (identifiant, mot_de_passe, prenom, nom, type) VALUES ('$identifiant', '$mot_de_passe', '$prenom', '$nom', '$type')";
-
-        if (mysqli_query($connexion, $sql_ajouter)) {
-            echo "Agent ajouté avec succès.";
-        } else {
-        echo "Erreur lors de l'ajout de l'agent : " . mysqli_error($connexion);
-        }
-    ?>
-
 </body>
 </html>

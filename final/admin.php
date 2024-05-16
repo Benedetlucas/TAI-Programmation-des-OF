@@ -1,4 +1,17 @@
 <?php
+$host = "localhost";
+$dbname = "tai";
+$user = "root";
+$pwd = "";
+
+// Crée une connexion à la base de données
+$connexion = mysqli_connect($host, $user, $pwd, $dbname);
+
+// Vérifie si la connexion a échoué
+if (!$connexion) {
+    die("La connexion à la base de données a échoué : " . mysqli_connect_error());
+}
+
 // Assurez-vous d'avoir inclus tous les fichiers nécessaires
 include_once __DIR__ . '/includes.php';
 
@@ -35,27 +48,44 @@ if (!isset($_SESSION['identifiant'])) {
         <tr>
             <th>N°OF</th>
             <th>Opérateur</th>
-            <th>Consulter</th>
-            <th>Modifier</th>
-            <th>Supprimer</th>
+            <th colspan="3">Action</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>OF001</td>
-            <td>John Doe</td>
-            <td><a href="#">Consulter</a></td>
-            <td><a href="#">Modifier</a></td>
-            <td><a href="#">Supprimer</a></td>
-        </tr>
-        <tr>
-            <td>OF002</td>
-            <td>Jane Smith</td>
-            <td><a href="#">Consulter</a></td>
-            <td><a href="#">Modifier</a></td>
-            <td><a href="#">Supprimer</a></td>
-        </tr>
-        <!-- Ajoutez d'autres lignes ici si nécessaire -->
+    <?php
+        // Requête SQL pour obtenir la liste des OF
+        $sql_of = "SELECT * FROM of";
+        $result_of = mysqli_query($connexion, $sql_of);
+
+        // Afficher les OF dans le tableau
+        while ($row = mysqli_fetch_assoc($result_of)) {
+        echo "<tr>";
+        echo "<td>" . $row['id'] . "</td>";
+    
+        // Requête SQL pour obtenir le nom de l'agent à partir de son id
+        $id_agent = $row['id_agent'];
+        $sql_agent = "SELECT * FROM agent WHERE id = $id_agent";
+        $result_agent = mysqli_query($connexion, $sql_agent);
+    
+        // Vérifier si la requête a réussi
+        if ($result_agent) {
+            // Récupérer les données de l'agent
+            $agent = mysqli_fetch_assoc($result_agent);
+        
+            // Afficher le nom de l'agent dans le tableau
+            echo "<td>" . $agent['nom'] . " " . $agent['prenom'] . "</td>";
+        } else {
+            // Afficher un message d'erreur si la requête a échoué
+            echo "<td>Erreur de récupération de l'agent</td>";
+        }
+    
+        echo "<td><a href='consulter_of.php?id=" . $row['id'] . "'>Consulter</a></td>";
+        echo "<td><a href='modifier_of.php?id=" . $row['id'] . "'>Modifier</a></td>";
+        echo "<td><a href='supprimer_of.php?id=" . $row['id'] . "'>Supprimer</a></td>";
+        echo "</tr>";
+        }
+    ?>
+
     </tbody>
 </table>
 
