@@ -9,7 +9,7 @@ session_start(); // Démarre la session
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['identifiant'])) {
     // Si l'utilisateur n'est pas connecté, redirige-le vers la page de connexion
-    header("Location: login.php");
+    header("Location: index.php");
     exit(); // Arrête l'exécution du script après la redirection
 }
 
@@ -30,7 +30,7 @@ if (!isset($_SESSION['identifiant'])) {
 <body>
 <table class="tableau">
     <h2>Administrateur</h2>
-    <p>Bonjour, <?php echo $_SESSION['prenom']; ?></p>
+    <p>Bonjour, <?php echo $_SESSION['identifiant']; ?></p>
     <thead>
         <tr>
             <th>N°OF</th>
