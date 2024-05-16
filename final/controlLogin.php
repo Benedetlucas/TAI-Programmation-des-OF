@@ -1,57 +1,51 @@
 <?php
-    
-    // do all necessary includes first
-    // __DIR__ allows you to use relative paths explicitly
-    require_once(__DIR__."/final/php/UserModel.php");
+// Assurez-vous d'avoir inclus la configuration de connexion à votre base de données
+// Assurez-vous d'avoir inclus la configuration de connexion à votre base de données
+$host = "localhost";
+$dbname = "tai";
+$user = "root";
+$pwd = "";
 
+// Crée une connexion à la base de données
+$connexion = mysqli_connect($host, $user, $pwd, $dbname);
 
+// Vérifie si la connexion a échoué
+if (!$connexion) {
+    die("La connexion à la base de données a échoué : " . mysqli_connect_error());
+}
 
-    // Check if the user comes from the form...
-    if (isset($_POST['identifiant']) && isset($_POST['mot_de_passe'])) {
+session_start(); // Démarre la session
 
-        // check if all fields have an input
-        if (strlen($_POST['identifiant']) > 0 && strlen($_POST['mot_de_passe']) > 0) {
-            $userModel = new UserModel();
-            // Call the model to check if the user exists
-            // How is the information stored? In a database? In a file? In a cloud? In a cookie?
-            // The controller does not care about that. It just calls the model.
-            $result = $userModel->check_login($_POST['login'], $_POST['pwd']);
-            // If the search (in the db here) is successful
-            if (isset($result['firstname'])) {
-                // the controller can now redirect to the correct welcome webpage
-                // making sure the firstname and lastname are registered throughout the **session**
-                session_start();
-                $_SESSION['firstname'] = $result['firstname'];
-                $_SESSION['lastname'] = $result['lastname'];
-                $_SESSION['id'] = $result['id'];
-            }
-            else {
-                // set the error message to be displayed in the view
-                $something_to_say = "Invalid login and/or password.";  
-            }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Vérifie si le formulaire a été soumis
+
+    // Récupère les données du formulaire
+    $identifiant = $_POST['identifiant'];
+    $mot_de_passe = $_POST['mot_de_passe'];
+
+    // Vérifie si les champs sont remplis
+    if (empty($identifiant) || empty($mot_de_passe)) {
+        // Affiche un message d'erreur si un champ est vide
+        echo "Veuillez remplir tous les champs.";
+    } else {
+        // Requête SQL pour vérifier les identifiants dans la base de données
+        // Remplacez 'votre_table_agent' par le nom de votre table 'agent'
+        $sql = "SELECT * FROM agent WHERE identifiant = '$identifiant' AND mot_de_passe = '$mot_de_passe'";
+        
+        // Exécute la requête
+        $result = mysqli_query($connexion, $sql);
+        
+        // Vérifie s'il y a une correspondance dans la base de données
+        if (mysqli_num_rows($result) == 1) {
+            // Identifiants valides, crée une session pour l'utilisateur
+            $_SESSION['identifiant'] = $identifiant;
+            
+            // Redirige l'utilisateur vers la page d'accueil
+            header("location: welcom.php");
+        } else {
+            // Identifiants invalides, affiche un message d'erreur
+            echo "Identifiant ou mot de passe incorrect.";
         }
-        else {
-            // set the error message to be displayed in the view
-            $something_to_say = "Missing login and/or password";
-        }
     }
-
-    // If the user wants to logout, simply destroy the session
-    // (and hence redirect to the login form)
-    if (isset($_POST['logout'])) {
-        session_start();
-        session_destroy();
-    }
-
-
-    // Now, let's call the view.
-    // If something to say, the view will display it
-    // Otherwise, the view will simply display the login form
-    // the form if not logged in, the welcome page if logged in
-    if (isset($_SESSION['firstname'])) {
-        require_once(__DIR__."/view/php/welcomePage.php");
-    }
-    else {
-        require_once(__DIR__."/view/php/loginExample.php");
-    }
-
+}
+?>
