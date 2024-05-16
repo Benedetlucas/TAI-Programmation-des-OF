@@ -13,6 +13,19 @@ if (!isset($_SESSION['identifiant'])) {
     exit(); // Arrête l'exécution du script après la redirection
 }
 
+$host = "localhost";
+$dbname = "tai";
+$user = "root";
+$pwd = "";
+
+// Crée une connexion à la base de données
+$connexion = mysqli_connect($host, $user, $pwd, $dbname);
+
+// Vérifie si la connexion a échoué
+if (!$connexion) {
+    die("La connexion à la base de données a échoué : " . mysqli_connect_error());
+}
+
 // Affiche le contenu de la page d'accueil
 ?>
 
@@ -57,5 +70,6 @@ if (!isset($_SESSION['identifiant'])) {
         </div>
         <button type="submit">Ajouter</button>
     </form>
+    <button><a href="admin.php">Retour</a></button>
 </body>
 </html>

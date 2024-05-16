@@ -1,6 +1,17 @@
 <?php
 // Inclure le fichier de connexion à la base de données
-include_once 'connexion_bd.php';
+$host = "localhost";
+$dbname = "tai";
+$user = "root";
+$pwd = "";
+
+// Crée une connexion à la base de données
+$connexion = mysqli_connect($host, $user, $pwd, $dbname);
+
+// Vérifie si la connexion a échoué
+if (!$connexion) {
+    die("La connexion à la base de données a échoué : " . mysqli_connect_error());
+}
 
 // Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,7 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Exécuter la requête
     if (mysqli_query($connexion, $sql)) {
         echo "OF ajouté avec succès.";
-    } else {
+        echo "</br>";
+        echo '<button><a href="of.php">Retour</a></button>';
+    } 
+    else {
         echo "Erreur : " . mysqli_error($connexion);
     }
 }

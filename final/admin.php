@@ -60,7 +60,7 @@ if (!isset($_SESSION['identifiant'])) {
 </table>
 
 <footer>
-    <button class="button">Ajouter un agent</button>
+    <button class="button"><a href="add_user.php">Ajouter un agent</a></button>
     <button class="button" ><a href="of.php">Ajouter un OF</a></button>
     <button class="button">Lancer le calcul du coût d'un OF</button>
 </footer>
