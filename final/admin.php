@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    <link rel="stylesheet" href="./global_admin.css" />
-    <link rel="stylesheet" href="./index_admin.css" />
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./index.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap"
@@ -18,38 +18,36 @@
   <body>
     <div class="desktop-1">
       <header class="navigation">
-      <div class="frame-parent">
-    <div class="jilora-wrapper">
-        <h2 class="jilora">Jilora</h2>
-    </div>
-    <div class="administrateur">Administrateur</div>
-</div>
-
-<div class="segmented-control">
-    <div class="segmented-control1">
-        <div class="item-1">
-            <div class="bigpicture">Bigpicture</div>
+        <div class="frame-parent">
+          <div class="jilora-wrapper">
+            <h2 class="jilora">Jilora</h2>
+          </div>
+          <div class="administrateur">Administrateur</div>
         </div>
-        <div class="item-2">
-            <div class="dtails">Détails</div>
+        <div class="segmented-control">
+          <div class="segmented-control1">
+            <div class="item-1">
+              <div class="bigpicture">Bigpicture</div>
+            </div>
+            <div class="item-2">
+              <div class="dtails">Détails</div>
+            </div>
+            <div class="item-3">
+              <div class="archives">Archives</div>
+            </div>
+            <div class="item-4">
+              <div class="popular">Popular</div>
+            </div>
+            <div class="item-5">
+              <div class="new-releases">New Releases</div>
+            </div>
+          </div>
         </div>
-        <div class="item-3">
-            <div class="archives">Archives</div>
+        <div class="button-logout">
+          <button class="button">
+            <div class="log-out">Log out</div>
+          </button>
         </div>
-        <div class="item-4">
-            <div class="popular">Popular</div>
-        </div>
-        <div class="item-5">
-            <div class="new-releases">New Releases</div>
-        </div>
-    </div>
-</div>
-
-<div class="button-logout">
-    <button class="button">
-        <div class="log-out">Log out</div>
-    </button>
-</div>
       </header>
       <main class="list">
         <div class="list1">
@@ -140,21 +138,21 @@
                     src="./public/logo-supprimer-1@2x.png"
                   />
                 </div>
-              </div>
+                <!-- End of list items -->
+
             </div>
-          </div>
-        </div>
-      </main>
-      <footer class="button-new">
+        </section>
+    </main>
+
+    <footer>
         <div class="button-parent">
-          <button class="button1">
-            <div class="crer-un-nouvel">Créer un nouvel Opérateur</div>
-          </button>
-          <div class="button2">
-            <div class="crer-un-nouvel1">Créer un nouvel OF</div>
-          </div>
+            <button class="button1">
+                <div class="crer-un-nouvel">Créer un nouvel Opérateur</div>
+            </button>
+            <div class="button2">
+                <div class="crer-un-nouvel1">Créer un nouvel OF</div>
+            </div>
         </div>
-      </footer>
-    </div>
-  </body>
+    </footer>
+</body>
 </html>
