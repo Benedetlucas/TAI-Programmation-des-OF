@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS `agent` (
 
 INSERT INTO `agent` (`id`, `identifiant`, `mot_de_passe`, `prenom`, `nom`, `type`) VALUES
 (1, 'hippolyte.retiere', '1234', 'hippolyte', 'retiere', 0);
+INSERT INTO `agent` (`id`, `identifiant`, `mot_de_passe`, `prenom`, `nom`, `type`) VALUES 
+('2', 'lucas.benedet', '159', 'Lucas', 'Benedet', '1');
 
 -- --------------------------------------------------------
 

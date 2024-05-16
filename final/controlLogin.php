@@ -42,12 +42,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             // Redirige l'utilisateur vers la page d'accueil
             
-            $statu = "SELECT * FROM agent WHERE identifiant = '$identifiant' AND mot_de_passe = '$mot_de_passe'"; 
-            if($statu[5] == 0){
+            $row = mysqli_fetch_assoc($result);
+    
+            // Vérifie la valeur de la colonne "type"
+            if ($row['type'] == 0) {
+                // Redirige vers la page admin.php si le type est 0
                 header("location: admin.php");
-            }
-            if($statu[5] == 1){
+                exit; // Assurez-vous de terminer le script après la redirection
+            } elseif ($row['type'] == 1) {
+                // Redirige vers la page operateur.php si le type est 1
                 header("location: operateur.php");
+                exit; // Assurez-vous de terminer le script après la redirection
             }
         } else {
             // Identifiants invalides, affiche un message d'erreur
