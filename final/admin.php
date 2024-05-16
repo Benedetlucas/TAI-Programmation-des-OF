@@ -4,6 +4,16 @@ include_once __DIR__ . '/includes.php';
 
 // Appel à la fonction call_header() pour inclure l'en-tête de la page
 call_header();
+session_start(); // Démarre la session
+
+// Vérifie si l'utilisateur est connecté
+if (!isset($_SESSION['identifiant'])) {
+    // Si l'utilisateur n'est pas connecté, redirige-le vers la page de connexion
+    header("Location: login.php");
+    exit(); // Arrête l'exécution du script après la redirection
+}
+
+// Affiche le contenu de la page d'accueil
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +29,8 @@ call_header();
 </head>
 <body>
 <table class="tableau">
+    <h2>Administrateur</h2>
+    <p>Bonjour, <?php echo $_SESSION['prenom']; ?></p>
     <thead>
         <tr>
             <th>N°OF</th>
@@ -47,11 +59,11 @@ call_header();
     </tbody>
 </table>
 
-    <footer>
-        <button>Ajouter un agent </button>
-        <button>Ajouter un OF </button>
-        <button>Lancer le calcul du coût d'un OF </button>
-    </footer>
+<footer>
+    <button class="button">Ajouter un agent</button>
+    <button class="button">Ajouter un OF</button>
+    <button class="button">Lancer le calcul du coût d'un OF</button>
+</footer>
 </body>
 </html>
 

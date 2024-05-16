@@ -73,7 +73,7 @@ function call_header() {
             </ul>
         </nav>
         <div class="logout">
-            <a href="login.php">Log out</a>
+            <a href="index.php">Log out</a>
         </div>
     </header>
     ';
