@@ -16,6 +16,10 @@
   text-decoration: none;
 }
 
+h2{
+  font-weight : bold;
+}
+
 .tableau a:hover {
   text-decoration: underline;
 }
@@ -37,6 +41,10 @@ footer {
   border-radius: 20px; /* Coins arrondis */
   transition: background-color 0.3s ease;
   font-family: 'Arial', sans-serif; /* Mise en forme de la police */
+}
+
+.button a {
+  text-decoration: none;
 }
 
 .button:hover {

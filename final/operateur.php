@@ -29,41 +29,30 @@ if (!isset($_SESSION['identifiant'])) {
 </head>
 <body>
 <table class="tableau">
-    <h2>Administrateur</h2>
+    <h2>Operateur</h2>
     <p>Bonjour, <?php echo $_SESSION['identifiant']; ?></p>
     <thead>
         <tr>
             <th>N°OF</th>
-            <th>Opérateur</th>
             <th>Consulter</th>
             <th>Modifier</th>
-            <th>Supprimer</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>OF001</td>
-            <td>John Doe</td>
             <td><a href="#">Consulter</a></td>
             <td><a href="#">Modifier</a></td>
-            <td><a href="#">Supprimer</a></td>
         </tr>
         <tr>
             <td>OF002</td>
-            <td>Jane Smith</td>
             <td><a href="#">Consulter</a></td>
             <td><a href="#">Modifier</a></td>
-            <td><a href="#">Supprimer</a></td>
         </tr>
         <!-- Ajoutez d'autres lignes ici si nécessaire -->
     </tbody>
 </table>
 
-<footer>
-    <button class="button">Ajouter un agent</button>
-    <button class="button" ><a href="of.php">Ajouter un OF</a></button>
-    <button class="button">Lancer le calcul du coût d'un OF</button>
-</footer>
 </body>
 </html>
 
