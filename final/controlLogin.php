@@ -41,7 +41,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['identifiant'] = $identifiant;
             
             // Redirige l'utilisateur vers la page d'accueil
-            header("location: welcom.php");
+            
+            $statu = "SELECT * FROM agent WHERE identifiant = '$identifiant' AND mot_de_passe = '$mot_de_passe'"; 
+            if($statu[5] == 0){
+                header("location: admin.php");
+            }
+            if($statu[5] == 1){
+                header("location: operateur.php");
+            }
         } else {
             // Identifiants invalides, affiche un message d'erreur
             echo "Identifiant ou mot de passe incorrect.";
