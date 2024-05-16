@@ -15,7 +15,7 @@ function call_header() {
         /* Style du logo */
         .logo h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 30px;
         }
 
         /* Style du menu */
@@ -45,7 +45,7 @@ function call_header() {
         }
 
         /* Style du bouton de déconnexion */
-        .logout button {
+        .logout a {
             background-color: #fff;
             color: #333;
             border: none;
@@ -55,7 +55,7 @@ function call_header() {
             border-radius: 4px;
         }
 
-        .logout button:hover {
+        .logout a:hover {
             background-color: #ccc;
         }
     </style>
@@ -73,7 +73,7 @@ function call_header() {
             </ul>
         </nav>
         <div class="logout">
-            <button>Log out</button>
+            <a href="login.php">Log out</a>
         </div>
     </header>
     ';

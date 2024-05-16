@@ -18,16 +18,10 @@
             <div class="jilora-wrapper">
               <h3 class="jilora">JILORA</h3>
             </div>
-            <button class="button">
-              <img class="google-icon" alt="" src="./public/google.svg" />
-
-              <div class="sign-up-with">Sign up with Google</div>
-            </button>
             <div class="frame-group">
               <div class="rectangle-wrapper">
                 <div class="frame-child"></div>
               </div>
-              <div class="or-continue-with">or continue with</div>
               <div class="rectangle-container">
                 <div class="frame-item"></div>
               </div>

@@ -18,15 +18,39 @@ call_header();
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abel:wght@600&display=swap" />
 </head>
 <body>
+<table class="tableau">
+    <thead>
+        <tr>
+            <th>N°OF</th>
+            <th>Opérateur</th>
+            <th>Consulter</th>
+            <th>Modifier</th>
+            <th>Supprimer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>OF001</td>
+            <td>John Doe</td>
+            <td><a href="#">Consulter</a></td>
+            <td><a href="#">Modifier</a></td>
+            <td><a href="#">Supprimer</a></td>
+        </tr>
+        <tr>
+            <td>OF002</td>
+            <td>Jane Smith</td>
+            <td><a href="#">Consulter</a></td>
+            <td><a href="#">Modifier</a></td>
+            <td><a href="#">Supprimer</a></td>
+        </tr>
+        <!-- Ajoutez d'autres lignes ici si nécessaire -->
+    </tbody>
+</table>
+
     <footer>
-        <div class="button-parent">
-            <button class="button1">
-                <div class="crer-un-nouvel">Ajouter un nouvel Opérateur</div>
-            </button>
-            <div class="button2">
-                <div class="crer-un-nouvel1">Créer un nouvel OF</div>
-            </div>
-        </div>
+        <button>Ajouter un agent </button>
+        <button>Ajouter un OF </button>
+        <button>Lancer le calcul du coût d'un OF </button>
     </footer>
 </body>
 </html>

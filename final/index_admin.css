@@ -1,0 +1,21 @@
+/* Style du tableau */
+.tableau {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableau th, .tableau td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style des liens */
+.tableau a {
+  color: #007bff; /* Bleu pour les liens */
+  text-decoration: none;
+}
+
+.tableau a:hover {
+  text-decoration: underline;
+}
