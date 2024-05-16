@@ -177,21 +177,14 @@
     padding: var(--padding-10xs) var(--padding-mini);
     max-width: 100%;
   }
-  .cant-log-in,
   .sign-up-for {
     margin: 0;
   }
-  .cant-log-in-container,
   .continue {
     position: relative;
     font-size: var(--small-text-size);
     line-height: 150%;
     font-family: var(--small-text);
-  }
-  .cant-log-in-container {
-    align-self: stretch;
-    color: var(--color-gray);
-    text-align: center;
   }
   .continue {
     font-weight: 500;
@@ -218,14 +211,8 @@
   .by-clicking-continue {
     color: var(--color-gray);
   }
-  .terms-of-service {
-    color: var(--color-black);
-  }
   .and {
     color: var(--color-gray);
-  }
-  .privacy-policy {
-    color: var(--color-black);
   }
   .by-clicking-continue-container {
     align-self: stretch;
