@@ -26,6 +26,26 @@ if (!isset($_SESSION['identifiant'])) {
     exit(); // Arrête l'exécution du script après la redirection
 }
 
+// Supprimer un agent s'il y a une demande
+// Vérifier si l'ID de l'OF à supprimer est présent dans la requête GET
+if(isset($_GET['id'])) {
+    // Récupérer l'ID de l'OF à supprimer
+    $id_of = $_GET['id'];
+    
+    // Requête SQL pour supprimer l'OF avec l'ID spécifié
+    $sql_supprimer = "DELETE FROM of WHERE id = '$id_of'";
+    
+    // Exécuter la requête
+    if (mysqli_query($connexion, $sql_supprimer)) {
+        echo "OF supprimé avec succès.";
+    } else {
+        echo "Erreur lors de la suppression de l'OF : " . mysqli_error($connexion);
+    }
+    } else {
+        echo "ID de l'OF non spécifié.";
+    }
+
+
 // Affiche le contenu de la page d'accueil
 ?>
 
@@ -64,6 +84,7 @@ if (!isset($_SESSION['identifiant'])) {
     
         // Requête SQL pour obtenir le nom de l'agent à partir de son id
         $id_agent = $row['id_agent'];
+        $id_of = $row['id'];
         $sql_agent = "SELECT * FROM agent WHERE id = $id_agent";
         $result_agent = mysqli_query($connexion, $sql_agent);
     
@@ -78,10 +99,12 @@ if (!isset($_SESSION['identifiant'])) {
             // Afficher un message d'erreur si la requête a échoué
             echo "<td>Erreur de récupération de l'agent</td>";
         }
+
+        // Requête SQL pour obtenir la liste des OF
     
-        echo "<td><a href='consulter_of.php?id=" . $row['id'] . "'>Consulter</a></td>";
-        echo "<td><a href='modifier_of.php?id=" . $row['id'] . "'>Modifier</a></td>";
-        echo "<td><a href='supprimer_of.php?id=" . $row['id'] . "'>Supprimer</a></td>";
+        echo "<td><a href='consulter_of.php?id=" . $id_of . "'>Consulter</a></td>";
+        echo "<td><a href='modifier_of.php?id=" . $id_of . "'>Modifier</a></td>";
+        echo "<td><a href='supprimer_of.php?id=" . $id_of . "'>Supprimer</a></td>";
         echo "</tr>";
         }
     ?>
