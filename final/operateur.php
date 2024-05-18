@@ -1,10 +1,18 @@
 <?php
+$host = "localhost";
+$dbname = "tai";
+$user = "root";
+$pwd = "";
+
+// Crée une connexion à la base de données
+$connexion = mysqli_connect($host, $user, $pwd, $dbname);
+
+
 // Assurez-vous d'avoir inclus tous les fichiers nécessaires
 include_once __DIR__ . '/includes.php';
 
-// Appel à la fonction call_header() pour inclure l'en-tête de la page
-call_header();
-session_start(); // Démarre la session
+// Démarre la session
+session_start();
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['identifiant'])) {
@@ -13,7 +21,9 @@ if (!isset($_SESSION['identifiant'])) {
     exit(); // Arrête l'exécution du script après la redirection
 }
 
-// Affiche le contenu de la page d'accueil
+
+// Appel à la fonction call_header() pour inclure l'en-tête de la page
+call_header();
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +31,6 @@ if (!isset($_SESSION['identifiant'])) {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
-
     <link rel="stylesheet" href="./global.css" />
     <link rel="stylesheet" href="./index_admin.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap" />
@@ -34,25 +43,39 @@ if (!isset($_SESSION['identifiant'])) {
     <thead>
         <tr>
             <th>N°OF</th>
+            <th>Description</th>
             <th>Consulter</th>
-            <th>Modifier</th>
+            <th>Remplir</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>OF001</td>
-            <td><a href="#">Consulter</a></td>
-            <td><a href="#">Modifier</a></td>
-        </tr>
-        <tr>
-            <td>OF002</td>
-            <td><a href="#">Consulter</a></td>
-            <td><a href="#">Modifier</a></td>
-        </tr>
-        <!-- Ajoutez d'autres lignes ici si nécessaire -->
+        <?php
+        // Requête SQL pour obtenir la liste des OF pour l'utilisateur connecté
+        $identifiant = $_SESSION['identifiant'];
+        $sql_agent = "SELECT id FROM agent WHERE identifiant = '$identifiant'";
+        $result_agent = mysqli_query($connexion, $sql_agent);
+
+        if ($result_agent && mysqli_num_rows($result_agent) > 0) {
+            $agent = mysqli_fetch_assoc($result_agent);
+            $id_agent = $agent['id'];
+
+            $sql_of = "SELECT * FROM of WHERE id_agent = $id_agent";
+            $result_of = mysqli_query($connexion, $sql_of);
+
+            // Afficher les OF dans le tableau
+            while ($row = mysqli_fetch_assoc($result_of)) {
+                echo "<tr>";
+                echo "<td>" . $row['id'] . "</td>";
+                echo "<td>" . $row['description'] . "</td>";
+                echo "<td><a href='consulter_of.php?id_of=" . $row['id'] . "'>Consulter</a></td>";
+                echo "<td><a href='of_operateur.php?id_of=" . $row['id'] . "'>Remplir</a></td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='4'>Aucun OF trouvé pour cet utilisateur.</td></tr>";
+        }
+        ?>
     </tbody>
 </table>
-
 </body>
 </html>
-
