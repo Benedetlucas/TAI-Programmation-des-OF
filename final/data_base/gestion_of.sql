@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 16 mai 2024 à 07:05
+-- Généré le : dim. 19 mai 2024 à 13:41
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -36,16 +36,15 @@ CREATE TABLE IF NOT EXISTS `agent` (
   `nom` varchar(255) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `agent`
 --
 
 INSERT INTO `agent` (`id`, `identifiant`, `mot_de_passe`, `prenom`, `nom`, `type`) VALUES
-(1, 'hippolyte.retiere', '1234', 'hippolyte', 'retiere', 0);
-INSERT INTO `agent` (`id`, `identifiant`, `mot_de_passe`, `prenom`, `nom`, `type`) VALUES 
-('2', 'lucas.benedet', '159', 'Lucas', 'Benedet', '1');
+(1, 'hippolyte.retiere', '1234', 'hippolyte', 'retiere', 0),
+(2, 'lucas.benedet', '159', 'Lucas', 'Benedet', 1);
 
 -- --------------------------------------------------------
 
@@ -59,7 +58,17 @@ CREATE TABLE IF NOT EXISTS `matiere` (
   `materiaux` varchar(255) NOT NULL,
   `prix` decimal(10,0) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `matiere`
+--
+
+INSERT INTO `matiere` (`id`, `materiaux`, `prix`) VALUES
+(1, 'plaque de bois 120*200*1', '21'),
+(2, 'plaque de bois 200*200*1.5', '32'),
+(3, 'vis à bois x200', '13'),
+(4, 'équerre x30 ', '9');
 
 -- --------------------------------------------------------
 
@@ -74,7 +83,21 @@ CREATE TABLE IF NOT EXISTS `of` (
   `description` text NOT NULL,
   `etat` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `of`
+--
+
+INSERT INTO `of` (`id`, `id_agent`, `description`, `etat`) VALUES
+(1, 1, 'meuble en bois', 0),
+(2, 1, 'meuble en bois', 0),
+(11, 2, 'teste', 0),
+(4, 2, 'meuble en bois', 0),
+(5, 2, 'comode 35x55x10', 0),
+(6, 2, 'comode 35x55x10', 0),
+(7, 2, 'comode 35x55x10', 0),
+(10, 2, 'teste', 0);
 
 -- --------------------------------------------------------
 
@@ -85,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `of` (
 DROP TABLE IF EXISTS `operation`;
 CREATE TABLE IF NOT EXISTS `operation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `descritpion` text NOT NULL,
+  `description` text NOT NULL,
   `id_of` int(11) NOT NULL,
   `id_matiere` int(11) NOT NULL,
   `cout` decimal(11,0) NOT NULL,

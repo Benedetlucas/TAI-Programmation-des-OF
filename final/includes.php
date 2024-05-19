@@ -67,8 +67,7 @@ function call_header() {
         </div>
         <nav class="menu">
             <ul>
-                <li><a href="#">BigPicture</a></li>
-                <li><a href="#">Détails</a></li>
+                <li><a href="admin.php">Vue OF</a></li>
                 <li><a href="#">Archives</a></li>
             </ul>
         </nav>
