@@ -1,18 +1,4 @@
 <?php
-// Assurez-vous d'avoir inclus tous les fichiers nécessaires
-include_once __DIR__ . '/includes.php';
-
-// Appel à la fonction call_header() pour inclure l'en-tête de la page
-call_header();
-session_start(); // Démarre la session
-
-// Vérifie si l'utilisateur est connecté
-if (!isset($_SESSION['identifiant'])) {
-    // Si l'utilisateur n'est pas connecté, redirige-le vers la page de connexion
-    header("Location: index.php");
-    exit(); // Arrête l'exécution du script après la redirection
-}
-
 $host = "localhost";
 $dbname = "tai";
 $user = "root";
@@ -21,21 +7,46 @@ $pwd = "";
 // Crée une connexion à la base de données
 $connexion = mysqli_connect($host, $user, $pwd, $dbname);
 
-// Vérifie si la connexion a échoué
-if (!$connexion) {
-    die("La connexion à la base de données a échoué : " . mysqli_connect_error());
+
+// Assurez-vous d'avoir inclus tous les fichiers nécessaires
+include_once __DIR__ . '/includes.php';
+
+// Démarre la session
+session_start();
+call_header();
+
+// Vérifie si l'utilisateur est connecté
+if (!isset($_SESSION['identifiant'])) {
+    // Si l'utilisateur n'est pas connecté, redirige-le vers la page de connexion
+    header("Location: index.php");
+    exit();
 }
 
-// Affiche le contenu de la page d'accueil
-?>
 
+// Vérifie si le formulaire a été soumis
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id_agent = intval($_POST['id_agent']);
+    $description = mysqli_real_escape_string($connexion, $_POST['description']);
+    $etat = intval($_POST['etat']);
+
+    // Requête SQL pour insérer un nouvel OF
+    $sql = "INSERT INTO of (id_agent, description, etat) VALUES ($id_agent, '$description', $etat)";
+
+    // Exécute la requête
+    if (mysqli_query($connexion, $sql)) {
+        echo "OF ajouté avec succès.";
+    } else {
+        echo "Erreur lors de l'ajout de l'OF : " . mysqli_error($connexion);
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un OF</title>
-    <link rel="stylesheet" href="global.css"> <!-- Assurez-vous d'inclure votre fichier CSS -->
+    <link rel="stylesheet" href="global.css">
 </head>
 <body>
     <h2>Ajouter un OF</h2>
@@ -45,15 +56,14 @@ if (!$connexion) {
             <select name="id_agent" id="id_agent">
                 <!-- Liste des noms des agents -->
                 <?php
+                // Requête SQL pour obtenir les noms des agents
+                $sql = "SELECT id, prenom, nom FROM agent";
+                $result = mysqli_query($connexion, $sql);
 
-                    // Requête SQL pour obtenir les noms des agents
-                    $sql = "SELECT id, prenom, nom FROM agent";
-                    $result = mysqli_query($connexion, $sql);
-
-                    // Afficher les options pour chaque agent
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo '<option value="' . $row['id'] . '">' . $row['prenom'] . ' ' . $row['nom'] . '</option>';
-                    }
+                // Afficher les options pour chaque agent
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<option value="' . $row['id'] . '">' . $row['prenom'] . ' ' . $row['nom'] . '</option>';
+                }
                 ?>
             </select>
         </div>
