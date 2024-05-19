@@ -59,7 +59,7 @@ mysqli_close($connexion);
 </head>
 <body>
     <h2>Ajouter des Opérations et des Matériaux pour l'OF #<?php echo $id_of; ?></h2>
-    <form action="add_operations.php?id_of=<?php echo $id_of; ?>" method="post">
+    <form action="add_operation.php?id_of=<?php echo $id_of; ?>" method="post">
         <h3>Ajouter une Opération</h3>
         <div class="form-group">
             <label for="operation_description">Description de l'opération :</label>

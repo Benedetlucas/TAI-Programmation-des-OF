@@ -7,6 +7,10 @@ $pwd = "";
 // Crée une connexion à la base de données
 $connexion = mysqli_connect($host, $user, $pwd, $dbname);
 
+// Vérifie si la connexion a échoué
+if (!$connexion) {
+    die("La connexion à la base de données a échoué : " . mysqli_connect_error());
+}
 
 // Assurez-vous d'avoir inclus tous les fichiers nécessaires
 include_once __DIR__ . '/includes.php';
@@ -22,24 +26,36 @@ if (!isset($_SESSION['identifiant'])) {
     exit();
 }
 
+// Fonction pour ajouter un OF
+function add_of($connexion) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_of'])) {
+        $id_agent = intval($_POST['id_agent']);
+        $description = mysqli_real_escape_string($connexion, $_POST['description']);
+        $etat = intval($_POST['etat']);
 
-// Vérifie si le formulaire a été soumis
+        // Requête SQL pour insérer un nouvel OF
+        $sql = "INSERT INTO of (id_agent, description, etat) VALUES ($id_agent, '$description', $etat)";
+
+        // Exécute la requête
+        if (mysqli_query($connexion, $sql)) {
+            $id_of = mysqli_insert_id($connexion); // Récupère l'ID du nouvel OF inséré
+            // Redirige vers add_operation.php avec l'ID de l'OF nouvellement créé
+            header("Location: add_operation.php?id_of=$id_of");
+            exit();
+        } else {
+            echo "Erreur lors de l'ajout de l'OF : " . mysqli_error($connexion);
+        }
+    }
+}
+
+// Appeler les fonctions en fonction du formulaire soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_agent = intval($_POST['id_agent']);
-    $description = mysqli_real_escape_string($connexion, $_POST['description']);
-    $etat = intval($_POST['etat']);
-
-    // Requête SQL pour insérer un nouvel OF
-    $sql = "INSERT INTO of (id_agent, description, etat) VALUES ($id_agent, '$description', $etat)";
-
-    // Exécute la requête
-    if (mysqli_query($connexion, $sql)) {
-        echo "OF ajouté avec succès.";
-    } else {
-        echo "Erreur lors de l'ajout de l'OF : " . mysqli_error($connexion);
+    if (isset($_POST['add_of'])) {
+        add_of($connexion);
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -47,10 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un OF</title>
     <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="form.css">
 </head>
 <body>
     <h2>Ajouter un OF</h2>
-    <form action="add_of.php" method="post">
+    <form action="" method="post">
         <div class="form-group">
             <label for="id_agent">Agent :</label>
             <select name="id_agent" id="id_agent">
@@ -78,8 +95,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="0">Pas fait</option>
             </select>
         </div>
-        <button type="submit">Ajouter</button>
+        <button type="submit" name="add_of">Ajouter</button>
     </form>
     <button><a href="admin.php">Retour</a></button>
 </body>
 </html>
+
+<?php
+// Fermer la connexion
+mysqli_close($connexion);
+?>
