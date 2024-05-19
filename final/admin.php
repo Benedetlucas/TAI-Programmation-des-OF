@@ -28,12 +28,33 @@ if (isset($_GET['id'])) {
     $id_of = intval($_GET['id']);
     
     if ($id_of > 0) {
-        $sql_supprimer = "DELETE FROM of WHERE id = $id_of";
+        // Requête SQL pour obtenir les ID des opérations associées à cet OF
+        $sql_get_operations = "SELECT id FROM operation WHERE id_of = $id_of";
+        $result_get_operations = mysqli_query($connexion, $sql_get_operations);
         
-        if (mysqli_query($connexion, $sql_supprimer)) {
-            echo "OF supprimé avec succès.";
+        // Vérifie si la requête a réussi
+        if ($result_get_operations) {
+            // Parcourt les résultats pour obtenir les ID des opérations
+            $operations_to_delete = [];
+            while ($row = mysqli_fetch_assoc($result_get_operations)) {
+                $operations_to_delete[] = $row['id'];
+            }
+            
+            // Supprimer l'OF
+            $sql_supprimer_of = "DELETE FROM of WHERE id = $id_of";
+            if (mysqli_query($connexion, $sql_supprimer_of)) {
+                echo "OF supprimé avec succès.";
+                
+                // Supprimer les opérations associées
+                foreach ($operations_to_delete as $operation_id) {
+                    $sql_delete_operation = "DELETE FROM operation WHERE id = $operation_id";
+                    mysqli_query($connexion, $sql_delete_operation);
+                }
+            } else {
+                echo "Erreur lors de la suppression de l'OF : " . mysqli_error($connexion);
+            }
         } else {
-            echo "Erreur lors de la suppression de l'OF : " . mysqli_error($connexion);
+            echo "Erreur lors de la récupération des opérations associées à cet OF.";
         }
     } else {
         echo "ID de l'OF invalide.";
@@ -41,6 +62,7 @@ if (isset($_GET['id'])) {
 } else {
     echo "ID de l'OF non spécifié.";
 }
+
 ?>
 
 <!DOCTYPE html>
