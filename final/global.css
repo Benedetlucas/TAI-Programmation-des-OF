@@ -1,46 +1,80 @@
 body {
-    margin: 0;
-    line-height: normal;
-  }
-  
-  :root {
-    /* fonts */
-    --small-text: Inter;
-  
-    /* font sizes */
-    --small-text-size: 16px;
-    --body-text-size: 20px;
-  
-    /* Colors */
-    --color-white: #fff;
-    --color-black: #000;
-    --color-gray: #828282;
-    --color-gainsboro-100: #e6e6e6;
-    --color-gainsboro-200: #e0e0e0;
-  
-    /* Paddings */
-    --padding-5xl: 24px;
-    --padding-xl: 20px;
-    --padding-10xs: 3px;
-    --padding-mini: 15px;
-    --padding-xs-5: 11.5px;
-  
-    /* Border radiuses */
-    --br-5xs: 8px;
-  }
+  margin: 0;
+  line-height: normal;
+  font-family: var(--small-text);
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
 
+:root {
+  /* Fonts */
+  --small-text: 'Inter', sans-serif;
+
+  /* Font sizes */
+  --small-text-size: 16px;
+  --body-text-size: 20px;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-gray: #828282;
+  --color-gainsboro-100: #e6e6e6;
+  --color-gainsboro-200: #e0e0e0;
+  --color-primary: #4CAF50; /* Green */
+  --color-primary-dark: #45a049;
+
+  /* Paddings */
+  --padding-5xl: 24px;
+  --padding-xl: 20px;
+  --padding-10xs: 3px;
+  --padding-mini: 15px;
+  --padding-xs-5: 11.5px;
+
+  /* Border radiuses */
+  --br-5xs: 8px;
+}
+
+/* Table styling */
 th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
+/* Button styling */
+button, .button {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: var(--padding-mini) var(--padding-xl);
+  text-align: center;
+  text-decoration: none;
+  font-size: var(--small-text-size);
+  margin: var(--padding-mini) 0;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--br-5xs);
+  transition: background-color 0.3s ease;
+}
 
+button:hover, .button:hover {
+  background-color: var(--color-primary-dark);
+}
 
+button a, .button a {
+  color: var(--color-white);
+  text-decoration: none;
+}
 
+/* Input styling */
+input[type="number"] {
+  padding: var(--padding-10xs);
+  margin: var(--padding-10xs) 0;
+  border: 1px solid var(--color-gray);
+  border-radius: var(--br-5xs);
+}
 
-  
