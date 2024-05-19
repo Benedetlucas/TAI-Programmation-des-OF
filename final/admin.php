@@ -112,7 +112,7 @@ if (isset($_GET['id'])) {
             }
 
             echo "<td><a href='of_operateur.php?id_of=" . $id_of . "'>Consulter</a></td>";
-            echo "<td><a href='modifier_of.php?id=" . $id_of . "'>Modifier</a></td>";
+            echo "<td><a href='modifier_of.php?id_of=" . $id_of . "'>Modifier</a></td>";
             echo "<td><a href='?id=" . $id_of . "'>Supprimer</a></td>";
             echo "<td><a href='?calcul=" . $id_of . "'>Lancer calcul du coût</a></td>";
             echo "</tr>";

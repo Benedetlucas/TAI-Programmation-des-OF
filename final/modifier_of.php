@@ -1,16 +1,4 @@
 <?php
-// Assurez-vous d'avoir inclus tous les fichiers nécessaires
-include_once __DIR__ . '/includes.php';
-
-// Démarre la session
-session_start();
-
-// Vérifie si l'utilisateur est connecté
-if (!isset($_SESSION['identifiant'])) {
-    header("Location: index.php");
-    exit();
-}
-
 $host = "localhost";
 $dbname = "tai";
 $user = "root";
@@ -19,40 +7,11 @@ $pwd = "";
 // Crée une connexion à la base de données
 $connexion = mysqli_connect($host, $user, $pwd, $dbname);
 
-// Vérifie si la connexion a échoué
-if (!$connexion) {
-    die("La connexion à la base de données a échoué : " . mysqli_connect_error());
-}
+// Assurez-vous d'avoir inclus tous les fichiers nécessaires
+include_once __DIR__ . '/includes.php';
 
-// Récupère l'identifiant de l'utilisateur connecté
-$identifiant = $_SESSION['identifiant'];
-
-// Requête pour obtenir le type de l'utilisateur
-$sql_agent = "SELECT type FROM agent WHERE identifiant = ?";
-$stmt = mysqli_prepare($connexion, $sql_agent);
-mysqli_stmt_bind_param($stmt, "s", $identifiant);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-
-// Vérifie si la requête a retourné un résultat
-if ($result && mysqli_num_rows($result) > 0) {
-    $agent = mysqli_fetch_assoc($result);
-    $type = $agent['type'];
-
-    // Appelle la fonction appropriée en fonction du type de l'utilisateur
-    if ($type == 0) {
-        call_header();
-    } elseif ($type == 1) {
-        call_header_agent();
-    } else {
-        // Gère les autres types ou les cas d'erreur
-        echo "Type d'utilisateur inconnu.";
-        exit();
-    }
-} else {
-    echo "Utilisateur non trouvé.";
-    exit();
-}
+// Démarre la session
+session_start();
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['identifiant'])) {
@@ -70,6 +29,20 @@ if ($id_of <= 0) {
     exit();
 }
 
+// Traitement de la soumission du formulaire de modification de la description
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_description'])) {
+    $new_description = mysqli_real_escape_string($connexion, $_POST['description']);
+    $sql_update_description = "UPDATE of SET description = ? WHERE id = ?";
+    $stmt_update_description = mysqli_prepare($connexion, $sql_update_description);
+    mysqli_stmt_bind_param($stmt_update_description, "si", $new_description, $id_of);
+    if (mysqli_stmt_execute($stmt_update_description)) {
+        echo "Description mise à jour avec succès.";
+    } else {
+        echo "Erreur lors de la mise à jour de la description : " . mysqli_error($connexion);
+    }
+    mysqli_stmt_close($stmt_update_description);
+}
+
 // Requête SQL pour obtenir les détails de l'OF
 $sql_of = "SELECT of.*, agent.nom, agent.prenom 
            FROM of 
@@ -85,6 +58,26 @@ if ($result_of && mysqli_num_rows($result_of) > 0) {
     exit();
 }
 
+// Appel à la fonction call_header() pour inclure l'en-tête de la page
+call_header();
+
+// Traitement de la suppression d'une opération
+if (isset($_GET['delete_operation'])) {
+    $id_operation = intval($_GET['delete_operation']);
+    if ($id_operation > 0) {
+        $sql_delete = "DELETE FROM operation WHERE id = ?";
+        $stmt_delete = mysqli_prepare($connexion, $sql_delete);
+        mysqli_stmt_bind_param($stmt_delete, "i", $id_operation);
+        if (mysqli_stmt_execute($stmt_delete)) {
+            echo "Opération supprimée avec succès.";
+        } else {
+            echo "Erreur lors de la suppression de l'opération : " . mysqli_error($connexion);
+        }
+        mysqli_stmt_close($stmt_delete);
+    } else {
+        echo "ID d'opération invalide.";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -110,10 +103,13 @@ if ($result_of && mysqli_num_rows($result_of) > 0) {
                 </div>
             </div>
             <div class="description-container">
-                <p class="description">
-                    <span class="description1">Description</span> :
-                    <span><?php echo htmlspecialchars($of['description']); ?></span>
-                </p>
+                <form method="post" action="">
+                    <p class="description">
+                        <span class="description1">Description</span> :
+                        <input type="text" name="description" value="<?php echo htmlspecialchars($of['description']); ?>">
+                        <button type="submit" name="update_description">Mettre à jour</button>
+                    </p>
+                </form>
             </div>
             <h3>Liste des Opérations pour l'OF #<?php echo $id_of; ?></h3>
             <form action="save_operations.php" method="post">
@@ -126,6 +122,7 @@ if ($result_of && mysqli_num_rows($result_of) > 0) {
                         <th>Coût</th>
                         <th>Quantité</th>
                         <th>Temps</th>
+                        <th>Action</th>
                     </tr>
                     <?php
                     // Requête SQL pour obtenir les opérations associées à cet OF avec les détails du matériau
@@ -145,13 +142,22 @@ if ($result_of && mysqli_num_rows($result_of) > 0) {
                         echo "<td>" . $row['cout'] . "</td>";
                         echo "<td><input type='number' name='quantite[]' value='" . $row['quantite'] . "'></td>";
                         echo "<td><input type='number' name='temps[]' value='" . $row['temps'] . "'></td>";
+                        echo "<td><a href='?id_of=" . $id_of . "&delete_operation=" . $row['id'] . "'>Supprimer</a></td>";
                         echo "</tr>";
                     }
                     ?>
                 </table>
+                <?php
+                    echo "<button><a href='add_operation.php?id_of=". $id_of ."'>Ajouter des opérations</a></button>"
+                ?>
                 <button type="submit">Enregistrer les modifications</button>
             </form>
         </section>
     </main>
 </body>
 </html>
+
+<?php
+// Fermer la connexion
+mysqli_close($connexion);
+?>
