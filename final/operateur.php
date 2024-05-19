@@ -23,7 +23,7 @@ if (!isset($_SESSION['identifiant'])) {
 
 
 // Appel à la fonction call_header() pour inclure l'en-tête de la page
-call_header();
+call_header_agent();
 ?>
 
 <!DOCTYPE html>

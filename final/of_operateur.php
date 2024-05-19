@@ -7,7 +7,6 @@ $pwd = "";
 // Crée une connexion à la base de données
 $connexion = mysqli_connect($host, $user, $pwd, $dbname);
 
-
 // Assurez-vous d'avoir inclus tous les fichiers nécessaires
 include_once __DIR__ . '/includes.php';
 
@@ -46,7 +45,7 @@ if ($result_of && mysqli_num_rows($result_of) > 0) {
 }
 
 // Appel à la fonction call_header() pour inclure l'en-tête de la page
-call_header();
+call_header_agent();
 ?>
 
 <!DOCTYPE html>
@@ -77,6 +76,42 @@ call_header();
                     <span><?php echo htmlspecialchars($of['description']); ?></span>
                 </p>
             </div>
+            <h3>Liste des Opérations pour l'OF #<?php echo $id_of; ?></h3>
+            <form action="save_operations.php" method="post">
+                <table border="1">
+                    <tr>
+                        <th>ID</th>
+                        <th>Description</th>
+                        <th>ID OF</th>
+                        <th>Nom du Matériau</th>
+                        <th>Coût</th>
+                        <th>Quantité</th>
+                        <th>Temps</th>
+                    </tr>
+                    <?php
+                    // Requête SQL pour obtenir les opérations associées à cet OF avec les détails du matériau
+                    $sql_operations = "SELECT o.*, m.materiaux AS nom_matiere 
+                                       FROM operation o 
+                                       INNER JOIN matiere m ON o.id_matiere = m.id 
+                                       WHERE o.id_of = $id_of";
+                    $result_operations = mysqli_query($connexion, $sql_operations);
+
+                    // Afficher les opérations dans le tableau avec la possibilité de les modifier
+                    while ($row = mysqli_fetch_assoc($result_operations)) {
+                        echo "<tr>";
+                        echo "<td>" . $row['id'] . "</td>";
+                        echo "<td>" . $row['description'] . "</td>";
+                        echo "<td>" . $row['id_of'] . "</td>";
+                        echo "<td>" . $row['nom_matiere'] . "</td>";
+                        echo "<td>" . $row['cout'] . "</td>";
+                        echo "<td><input type='number' name='quantite[]' value='" . $row['quantite'] . "'></td>";
+                        echo "<td><input type='number' name='temps[]' value='" . $row['temps'] . "'></td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </table>
+                <button type="submit">Enregistrer les modifications</button>
+            </form>
         </section>
     </main>
 </body>
