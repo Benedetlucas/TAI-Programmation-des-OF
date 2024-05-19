@@ -2,7 +2,6 @@
 // Inclure les fichiers nécessaires
 include_once __DIR__ . '/includes.php';
 session_start();
-call_header();
 
 // Vérifie si l'utilisateur est connecté
 if (!isset($_SESSION['identifiant'])) {
@@ -23,6 +22,36 @@ if (!$connexion) {
     die("La connexion à la base de données a échoué : " . mysqli_connect_error());
 }
 
+// Récupère l'identifiant de l'utilisateur connecté
+$identifiant = $_SESSION['identifiant'];
+
+// Requête pour obtenir le type de l'utilisateur
+$sql_agent = "SELECT type FROM agent WHERE identifiant = ?";
+$stmt = mysqli_prepare($connexion, $sql_agent);
+mysqli_stmt_bind_param($stmt, "s", $identifiant);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+// Vérifie si la requête a retourné un résultat
+if ($result && mysqli_num_rows($result) > 0) {
+    $agent = mysqli_fetch_assoc($result);
+    $type = $agent['type'];
+
+    // Appelle la fonction appropriée en fonction du type de l'utilisateur
+    if ($type == 1) {
+        call_header();
+    } elseif ($type == 0) {
+        call_header_agent();
+    } else {
+        // Gère les autres types ou les cas d'erreur
+        echo "Type d'utilisateur inconnu.";
+        exit();
+    }
+} else {
+    echo "Utilisateur non trouvé.";
+    exit();
+}
+
 $id_of = isset($_GET['id_of']) ? intval($_GET['id_of']) : 0;
 
 if ($id_of === 0) {
@@ -30,7 +59,6 @@ if ($id_of === 0) {
     echo "Identifiant de l'OF non spécifié.";
     exit(); // Arrêter l'exécution du script
 }
-
 
 // Traitement du formulaire d'ajout d'opération
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_operation'])) {
@@ -58,20 +86,37 @@ if (isset($_GET['id'])) {
     $id_operation = intval($_GET['id']);
     
     if ($id_operation > 0) {
-        $sql_supprimer = "DELETE FROM operation WHERE id = $id_operation";
-        
-        if (mysqli_query($connexion, $sql_supprimer)) {
-            echo "Opération supprimée avec succès.";
+        // Supprime les opérations liées à l'OF
+        $sql_supprimer_operations = "DELETE FROM operation WHERE id_of = ?";
+        $stmt_supprimer_operations = mysqli_prepare($connexion, $sql_supprimer_operations);
+        mysqli_stmt_bind_param($stmt_supprimer_operations, "i", $id_operation);
+
+        if (mysqli_stmt_execute($stmt_supprimer_operations)) {
+            echo "Opérations supprimées avec succès.";
         } else {
-            echo "Erreur lors de la suppression de l'opération : " . mysqli_error($connexion);
+            echo "Erreur lors de la suppression des opérations : " . mysqli_error($connexion);
         }
+
+        mysqli_stmt_close($stmt_supprimer_operations);
+
+        // Supprime l'OF
+        $sql_supprimer_of = "DELETE FROM of WHERE id = ?";
+        $stmt_supprimer_of = mysqli_prepare($connexion, $sql_supprimer_of);
+        mysqli_stmt_bind_param($stmt_supprimer_of, "i", $id_operation);
+
+        if (mysqli_stmt_execute($stmt_supprimer_of)) {
+            echo "OF supprimé avec succès.";
+        } else {
+            echo "Erreur lors de la suppression de l'OF : " . mysqli_error($connexion);
+        }
+
+        mysqli_stmt_close($stmt_supprimer_of);
     } else {
         echo "ID de l'opération invalide.";
     }
 } else {
     echo "ID de l'opération non spécifié.";
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -150,4 +195,11 @@ if (isset($_GET['id'])) {
         }
         ?>
     </table>
-    <button><a href="admin.php">Retour</
+    <button><a href="admin.php">Retour</a></button>
+</body>
+</html>
+
+<?php
+// Fermer la connexion
+mysqli_close($connexion);
+?>
