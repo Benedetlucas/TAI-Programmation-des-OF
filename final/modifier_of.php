@@ -78,6 +78,33 @@ if (isset($_GET['delete_operation'])) {
         echo "ID d'opération invalide.";
     }
 }
+
+// Enregistrement des modifications des opérations
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_operations'])) {
+    $ids = $_POST['operation_id'];
+    $descriptions = $_POST['description'];
+    $matieres = $_POST['matiere'];
+    $quantites = $_POST['quantite'];
+    $temps = $_POST['temps'];
+
+    // Boucle à travers les opérations pour mettre à jour les descriptions, les matériaux, les quantités et les temps
+    foreach ($ids as $key => $id) {
+        $description = mysqli_real_escape_string($connexion, $descriptions[$key]);
+        $matiere = mysqli_real_escape_string($connexion, $matieres[$key]);
+        $quantite = intval($quantites[$key]);
+        $temps_value = floatval($temps[$key]);
+
+        // Requête SQL pour mettre à jour les informations de l'opération
+        $sql_update_operation = "UPDATE operation SET description = ?, id_matiere = (SELECT id FROM matiere WHERE materiaux = ?), quantite = ?, temps = ? WHERE id = ?";
+        $stmt_update = mysqli_prepare($connexion, $sql_update_operation);
+        mysqli_stmt_bind_param($stmt_update, "ssiii", $description, $matiere, $quantite, $temps_value, $id);
+        mysqli_stmt_execute($stmt_update);
+    }
+
+    // Redirection vers la page actuelle pour éviter la soumission multiple des données
+    header("Location: {$_SERVER['PHP_SELF']}?id_of=$id_of");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +139,8 @@ if (isset($_GET['delete_operation'])) {
                 </form>
             </div>
             <h3>Liste des Opérations pour l'OF #<?php echo $id_of; ?></h3>
-            <form action="save_operations.php" method="post">
+            <form action="" method="post">
+                <input type="hidden" name="save_operations" value="1">
                 <table border="1">
                     <tr>
                         <th>ID</th>
@@ -135,21 +163,19 @@ if (isset($_GET['delete_operation'])) {
                     // Afficher les opérations dans le tableau avec la possibilité de les modifier
                     while ($row = mysqli_fetch_assoc($result_operations)) {
                         echo "<tr>";
-                        echo "<td>" . $row['id'] . "</td>";
-                        echo "<td>" . $row['description'] . "</td>";
+                        echo "<td><input type='hidden' name='operation_id[]' value='" . $row['id'] . "'>" . $row['id'] . "</td>";
+                        echo "<td><input type='text' name='description[]' value='" . htmlspecialchars($row['description']) . "'></td>";
                         echo "<td>" . $row['id_of'] . "</td>";
-                        echo "<td>" . $row['nom_matiere'] . "</td>";
+                        echo "<td><input type='text' name='matiere[]' value='" . htmlspecialchars($row['nom_matiere']) . "'></td>";
                         echo "<td>" . $row['cout'] . "</td>";
                         echo "<td><input type='number' name='quantite[]' value='" . $row['quantite'] . "'></td>";
-                        echo "<td><input type='number' name='temps[]' value='" . $row['temps'] . "'></td>";
+                        echo "<td><input type='number' step='0.01' name='temps[]' value='" . $row['temps'] . "'></td>";
                         echo "<td><a href='?id_of=" . $id_of . "&delete_operation=" . $row['id'] . "'>Supprimer</a></td>";
                         echo "</tr>";
                     }
                     ?>
                 </table>
-                <?php
-                    echo "<button><a href='add_operation.php?id_of=". $id_of ."'>Ajouter des opérations</a></button>"
-                ?>
+                <button><a href='add_operation.php?id_of=<?php echo $id_of; ?>'>Ajouter des opérations</a></button>
                 <button type="submit">Enregistrer les modifications</button>
             </form>
         </section>
