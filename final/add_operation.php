@@ -25,32 +25,7 @@ if (!$connexion) {
 // Récupère l'identifiant de l'utilisateur connecté
 $identifiant = $_SESSION['identifiant'];
 
-// Requête pour obtenir le type de l'utilisateur
-$sql_agent = "SELECT type FROM agent WHERE identifiant = ?";
-$stmt = mysqli_prepare($connexion, $sql_agent);
-mysqli_stmt_bind_param($stmt, "s", $identifiant);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-
-// Vérifie si la requête a retourné un résultat
-if ($result && mysqli_num_rows($result) > 0) {
-    $agent = mysqli_fetch_assoc($result);
-    $type = $agent['type'];
-
-    // Appelle la fonction appropriée en fonction du type de l'utilisateur
-    if ($type == 1) {
-        call_header();
-    } elseif ($type == 0) {
-        call_header_agent();
-    } else {
-        // Gère les autres types ou les cas d'erreur
-        echo "Type d'utilisateur inconnu.";
-        exit();
-    }
-} else {
-    echo "Utilisateur non trouvé.";
-    exit();
-}
+call_header();
 
 $id_of = isset($_GET['id_of']) ? intval($_GET['id_of']) : 0;
 

@@ -85,6 +85,27 @@ if ($result_of && mysqli_num_rows($result_of) > 0) {
     exit();
 }
 
+// Enregistrement des modifications des opérations
+if (isset($_GET['save_operations']) && isset($_POST['quantite']) && isset($_POST['temps'])) {
+    $quantites = $_POST['quantite'];
+    $temps = $_POST['temps'];
+
+    // Boucle à travers les opérations pour mettre à jour les quantités et les temps
+    foreach ($quantites as $key => $quantite) {
+        $quantite = intval($quantite);
+        $temps[$key] = intval($temps[$key]);
+
+        // Requête SQL pour mettre à jour la quantité et le temps de l'opération
+        $sql_update_operation = "UPDATE operation SET quantite = ?, temps = ? WHERE id = ?";
+        $stmt_update = mysqli_prepare($connexion, $sql_update_operation);
+        mysqli_stmt_bind_param($stmt_update, "iii", $quantite, $temps[$key], $key);
+        mysqli_stmt_execute($stmt_update);
+    }
+
+    // Redirection vers la page actuelle pour éviter la soumission multiple des données
+    header("Location: {$_SERVER['PHP_SELF']}?id_of=$id_of");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -116,41 +137,43 @@ if ($result_of && mysqli_num_rows($result_of) > 0) {
                 </p>
             </div>
             <h3>Liste des Opérations pour l'OF #<?php echo $id_of; ?></h3>
-            <form action="save_operations.php" method="post">
-                <table border="1">
-                    <tr>
-                        <th>ID</th>
-                        <th>Description</th>
-                        <th>ID OF</th>
-                        <th>Nom du Matériau</th>
-                        <th>Coût</th>
-                        <th>Quantité</th>
-                        <th>Temps</th>
-                    </tr>
-                    <?php
-                    // Requête SQL pour obtenir les opérations associées à cet OF avec les détails du matériau
-                    $sql_operations = "SELECT o.*, m.materiaux AS nom_matiere 
-                                       FROM operation o 
-                                       INNER JOIN matiere m ON o.id_matiere = m.id 
-                                       WHERE o.id_of = $id_of";
-                    $result_operations = mysqli_query($connexion, $sql_operations);
+            <form action="?save_operations&id_of=<?php echo $id_of; ?>" method="post">
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>ID OF</th>
+            <th>Nom du Matériau</th>
+            <th>Coût</th>
+            <th>Quantité</th>
+            <th>Temps</th>
+        </tr>
+        <?php
+        // Requête SQL pour obtenir les opérations associées à cet OF avec les détails du matériau
+        $sql_operations = "SELECT o.*, m.materiaux AS nom_matiere 
+                           FROM operation o 
+                           INNER JOIN matiere m ON o.id_matiere = m.id 
+                           WHERE o.id_of = $id_of";
+        $result_operations = mysqli_query($connexion, $sql_operations);
 
-                    // Afficher les opérations dans le tableau avec la possibilité de les modifier
-                    while ($row = mysqli_fetch_assoc($result_operations)) {
-                        echo "<tr>";
-                        echo "<td>" . $row['id'] . "</td>";
-                        echo "<td>" . $row['description'] . "</td>";
-                        echo "<td>" . $row['id_of'] . "</td>";
-                        echo "<td>" . $row['nom_matiere'] . "</td>";
-                        echo "<td>" . $row['cout'] . "</td>";
-                        echo "<td><input type='number' name='quantite[]' value='" . $row['quantite'] . "'></td>";
-                        echo "<td><input type='number' name='temps[]' value='" . $row['temps'] . "'></td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                </table>
-                <button type="submit">Enregistrer les modifications</button>
-            </form>
+        // Afficher les opérations dans le tableau avec la possibilité de les modifier
+        while ($row = mysqli_fetch_assoc($result_operations)) {
+            echo "<tr>";
+            echo "<td>" . $row['id'] . "</td>";
+            echo "<td>" . $row['description'] . "</td>";
+            echo "<td>" . $row['id_of'] . "</td>";
+            echo "<td>" . $row['nom_matiere'] . "</td>";
+            echo "<td>" . $row['cout'] . "</td>";
+            echo "<td><input type='number' name='quantite[]' value='" . $row['quantite'] . "'></td>";
+            echo "<td><input type='number' name='temps[]' value='" . $row['temps'] . "'></td>";
+            echo "</tr>";
+        }
+        ?>
+        <input type="hidden" name="id_of" value="<?php echo $id_of; ?>"> <!-- Champ caché pour l'ID de l'OF -->
+    </table>
+    <button type="submit">Enregistrer les modifications</button>
+</form>
+
         </section>
     </main>
 </body>
