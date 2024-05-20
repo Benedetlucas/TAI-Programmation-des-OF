@@ -126,7 +126,7 @@ if ($result_of && mysqli_num_rows($result_of) > 0) {
                 ?>
                 <tr>
                     <td colspan="7" style="text-align: right;"><strong>Total</strong></td>
-                    <td><strong><?php echo htmlspecialchars($total_cost); ?></strong></td>
+                    <td><strong><?php echo htmlspecialchars($total_cost . " €"); ?></strong></td>
                 </tr>
             </table>
         </section>
