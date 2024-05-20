@@ -7,7 +7,6 @@ $pwd = "";
 // Crée une connexion à la base de données
 $connexion = mysqli_connect($host, $user, $pwd, $dbname);
 
-
 // Assurez-vous d'avoir inclus tous les fichiers nécessaires
 include_once __DIR__ . '/includes.php';
 
@@ -20,7 +19,6 @@ if (!isset($_SESSION['identifiant'])) {
     header("Location: index.php");
     exit(); // Arrête l'exécution du script après la redirection
 }
-
 
 // Appel à la fonction call_header() pour inclure l'en-tête de la page
 call_header_agent();
@@ -59,17 +57,21 @@ call_header_agent();
             $agent = mysqli_fetch_assoc($result_agent);
             $id_agent = $agent['id'];
 
-            $sql_of = "SELECT * FROM of WHERE id_agent = $id_agent";
+            $sql_of = "SELECT * FROM of WHERE id_agent = $id_agent AND etat = 0";
             $result_of = mysqli_query($connexion, $sql_of);
 
             // Afficher les OF dans le tableau
-            while ($row = mysqli_fetch_assoc($result_of)) {
-                echo "<tr>";
-                echo "<td>" . $row['id'] . "</td>";
-                echo "<td>" . $row['description'] . "</td>";
-                echo "<td><a href='consulter_of.php?id_of=" . $row['id'] . "'>Consulter</a></td>";
-                echo "<td><a href='of_operateur.php?id_of=" . $row['id'] . "'>Remplir</a></td>";
-                echo "</tr>";
+            if ($result_of && mysqli_num_rows($result_of) > 0) {
+                while ($row = mysqli_fetch_assoc($result_of)) {
+                    echo "<tr>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['description'] . "</td>";
+                    echo "<td><a href='consulter_of.php?id_of=" . $row['id'] . "'>Consulter</a></td>";
+                    echo "<td><a href='of_operateur.php?id_of=" . $row['id'] . "'>Remplir</a></td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4'>Aucun OF trouvé avec un état égal à 1 pour cet utilisateur.</td></tr>";
             }
         } else {
             echo "<tr><td colspan='4'>Aucun OF trouvé pour cet utilisateur.</td></tr>";
