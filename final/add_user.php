@@ -1,9 +1,9 @@
 <?php
 // Inclure le fichier de connexion à la base de données
 $host = "localhost";
-$dbname = "tai";
-$user = "root";
-$pwd = "";
+$dbname = "tai_app_2023_2024_crab";
+$user = "tai_app_2023_2024_crab";
+$pwd = "JLAF75JO6X";
 
 // Crée une connexion à la base de données
 $connexion = mysqli_connect($host, $user, $pwd, $dbname);
